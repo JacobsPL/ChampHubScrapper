@@ -7,12 +7,43 @@ import java.util.TreeSet;
 
 public class Player {
 
-    static List<Player> players = new ArrayList<>(); // to trzeba zrobić nie statycznie
+    private Set<String> armies = new TreeSet<>();
+    private String username;
+    private String playerId;
 
-    Set<String> armies = new TreeSet<>();
-    String username;
-    String playerId;
+    String playerBody;
 
+    Set<String> getArmies(){
+        return armies;
+    }
+
+    void addArmy(String army){
+        armies.add(army);
+    }
+
+    void setPlayerBody(String body){
+        this.playerBody=body;
+    }
+
+    String getPlayerBody(){
+        return playerBody;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    String getUsername(){
+        return username;
+    }
+
+    public String getPlayerId(){
+        return playerId;
+    }
+
+    public void setPlayerId(String id){
+        this.playerId = id;
+    }
 
     public Player(String playerId, String username){
         this.playerId = playerId;

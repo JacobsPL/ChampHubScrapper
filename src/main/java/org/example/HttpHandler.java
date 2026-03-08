@@ -87,6 +87,6 @@ public class HttpHandler {
 
    String createPlayerDetailsUrl(Player player){
         //https://api.championshub.app/api/ranking-elo/user-history/{playerId}?season=CURRENT
-        return  "https://api.championshub.app/api/ranking-elo/user-history/"+player.playerId+"?season=CURRENT";
+        return  "https://api.championshub.app/api/ranking-elo/user-history/"+player.getPlayerId()+"?season=CURRENT";
    };
 }

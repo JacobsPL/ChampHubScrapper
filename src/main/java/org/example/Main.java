@@ -7,28 +7,30 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.example.Player.players;
+//import static org.example.Player.players;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
 
+        //Set up api event properties
+        Event event = new Event();
         HttpHandler myHandler = new HttpHandler();
-        String eventId = myHandler.extractEventId(HttpHandler.eventUrl);
-        String apiUrl = myHandler.createUserSubmissionApiUrl();
-        String body = myHandler.FetchHttpBody(apiUrl);
+        event.setEventId(myHandler.extractEventId(HttpHandler.eventUrl));
+        event.setApiUrl(myHandler.createUserSubmissionApiUrl());
+        event.setEventBody(myHandler.FetchHttpBody(event.getApiUrl()));
 
         JsonHandler jsonHandler = new JsonHandler();
-        jsonHandler.fillPlayerList(body);
+        jsonHandler.fillPlayerList(event);
 
 
-        for(Player player: players) {
-            body = myHandler.fetchPlayerParingsBody(myHandler.createPlayerDetailsUrl(player));
-            jsonHandler.fillArmyList(body);
+        for(Player player: event.getPlayers()) {
+            player.setPlayerBody(myHandler.fetchPlayerParingsBody(myHandler.createPlayerDetailsUrl(player)));
+            jsonHandler.fillArmyList(player, event);
         }
 
-//        for (Player player: players){
-//            System.out.print(player.username+" ");
-//            System.out.println(player.armies);
-//        }
+        for (Player player: event.getPlayers()){
+            System.out.print(player.getUsername()+" ");
+            System.out.println(player.getArmies());
+        }
     }
 }

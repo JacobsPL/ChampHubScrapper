@@ -1,50 +1,48 @@
 package org.example;
 
-import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-import static org.example.Player.players;
+//import static org.example.Player.players;
 
 public class JsonHandler {
 
-    boolean isAprroved(JsonNode attender){
+    boolean isAprroved(@NotNull JsonNode attender){
         JsonNode isApproved = attender.get("status");
         String status = isApproved.toString();
         status = status.substring(1,status.length()-1);
         return status.equals("APPROVED");
     }
-    void fillPlayerList(String json) throws JsonProcessingException {
+    void fillPlayerList(@NotNull Event event) throws JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode node = mapper.readTree(json);
+        JsonNode node = mapper.readTree(event.getEventBody());
         JsonNode attendees = node.get("people");
             for(JsonNode attender : attendees) {
                 JsonNode users = attender.get("user");
                 if (isAprroved(attender)) {
-                    players.add(new Player(users.get("id").asText(), users.get("displayName").asText()));
+                    event.addPlayerToList(new Player(users.get("id").asText(), users.get("displayName").asText()));
                 }
             }
     }
 
-    void fillArmyList(String json) throws JsonProcessingException {
+    void fillArmyList(Player user, Event event) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode node = mapper.readTree(json);
+        JsonNode node = mapper.readTree(user.getPlayerBody());
         JsonNode events = node.get("data");
 
-        for (JsonNode event : events) {
-            JsonNode parings = event.get("pairings");
+        for (JsonNode currentEvent : events) {
+            JsonNode parings = currentEvent.get("pairings");
             for (JsonNode pairing : parings) {
                 String username = pairing.path("pairingUser1").path("user").path("displayName").toString();
                 if(!username.isEmpty()) username = username.substring(1,username.length()-1);
                 String army = pairing.path("pairingUser1").path("army").path("name").toString();
                 if(!army.isEmpty()) army = army.substring(1,army.length()-1);
-                for (Player player : players) {
-                    if (player.username.equals(username)) {
-                        player.armies.add(army);
+                for (Player player : event.getPlayers()) {
+                    if (player.getUsername().equals(username)) {
+                        player.addArmy(army);
                     }
                 }
             }
