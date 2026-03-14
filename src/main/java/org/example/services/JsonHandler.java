@@ -1,11 +1,13 @@
-package org.example;
+package org.example.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.models.Event;
+import org.example.models.Player;
 import org.jetbrains.annotations.NotNull;
 
-//import static org.example.Player.players;
+//import static org.example.models.Player.players;
 
 public class JsonHandler {
 
@@ -15,8 +17,7 @@ public class JsonHandler {
         status = status.substring(1,status.length()-1);
         return status.equals("APPROVED");
     }
-    void fillPlayerList(@NotNull Event event) throws JsonProcessingException {
-
+    public void fillPlayerList(@NotNull Event event) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode node = mapper.readTree(event.getEventBody());
         JsonNode attendees = node.get("people");
@@ -28,7 +29,7 @@ public class JsonHandler {
             }
     }
 
-    void fillArmyList(Player user, Event event) throws JsonProcessingException {
+    public void fillArmyList(Player user, Event event) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode node = mapper.readTree(user.getPlayerBody());
         JsonNode events = node.get("data");
@@ -42,7 +43,7 @@ public class JsonHandler {
                 if(!army.isEmpty()) army = army.substring(1,army.length()-1);
                 for (Player player : event.getPlayers()) {
                     if (player.getUsername().equals(username)) {
-                        player.addArmy(army);
+                        player.addArmyAndFrequency(army);
                     }
                 }
             }

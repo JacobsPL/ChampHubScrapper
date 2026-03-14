@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Event</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h1 th:text="${event.eventUrl}">Event name</h1>
+
+<h2>Players</h2>
+
+<table border="1">
+    <tr>
+        <th>Player</th>
+        <th>Armies</th>
+    </tr>
+
+    <tr th:each="player : ${event.players}">
+        <td th:text="${player.username}">username</td>
+
+        <td>
+            <ul>
+                <li th:each="entry : ${player.armiesFrequency}">
+                    <span th:text="${entry.key}"></span>
+                    :
+                    <span th:text="${entry.value}"></span>
+                </li>
+            </ul>
+        </td>
+
+    </tr>
+
+</table>
+
+<br>
+
+<a th:href="@{/}">
+    <button>Back</button>
+</a>
+
+</body>
+</html>

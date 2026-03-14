@@ -1,4 +1,6 @@
-package org.example;
+package org.example.services;
+
+import org.example.models.Player;
 
 import java.io.IOException;
 import java.net.URI;
@@ -9,12 +11,9 @@ import java.time.Duration;
 
 public class HttpHandler {
 
-
-    static String eventUrl = "https://championshub.app/wh_ow/events/1c91e9f3-562b-447c-8014-d5930e271dfc";
-
     HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build();
 
-    String FetchHttpBody(String url) throws IOException, InterruptedException {
+    public String FetchHttpBody(String url) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
@@ -43,7 +42,7 @@ public class HttpHandler {
         return response.body();
     }
 
-    String fetchPlayerParingsBody(String url) throws IOException, InterruptedException{
+    public String fetchPlayerParingsBody(String url) throws IOException, InterruptedException{
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
@@ -60,7 +59,7 @@ public class HttpHandler {
         return response.body();
     }
 
-    String extractEventId(String url){
+    public String extractEventId(String url){
         StringBuilder eventId = new StringBuilder();
         int counter=0;
 
@@ -81,11 +80,11 @@ public class HttpHandler {
         return eventId.toString();
     }
 
-    String createUserSubmissionApiUrl(){
+    public String createUserSubmissionApiUrl(String eventUrl){
         return "https://api.championshub.app/api/submission/" + extractEventId(eventUrl);
     }
 
-   String createPlayerDetailsUrl(Player player){
+   public String createPlayerDetailsUrl(Player player){
         //https://api.championshub.app/api/ranking-elo/user-history/{playerId}?season=CURRENT
         return  "https://api.championshub.app/api/ranking-elo/user-history/"+player.getPlayerId()+"?season=CURRENT";
    };
