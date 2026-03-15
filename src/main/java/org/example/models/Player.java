@@ -9,14 +9,21 @@ public class Player {
     private String username;
     private String playerId;
 
-    String playerBody;
+    private List<Army> armyList= new ArrayList<Army>();
 
+    String playerBody;
+    @Deprecated
     public Set<String> getArmies(){
         return armies;
     }
 
+    @Deprecated
     public void addArmy(String army){
         armies.add(army);
+    }
+
+    public void addArmyToList(Army army){
+        armyList.add(army);
     }
 
     public void setPlayerBody(String body){
@@ -48,10 +55,12 @@ public class Player {
         this.username = username;
     }
 
+    @Deprecated
     public Map<String, Integer> getArmiesFrequency() {
         return armiesFrequency;
     }
 
+    @Deprecated
     public void addArmyAndFrequency(String army) {
         for(Map.Entry<String, Integer> entry : armiesFrequency.entrySet()){
             if(entry.getKey().equals(army)){
@@ -62,13 +71,7 @@ public class Player {
         armiesFrequency.put(army,1);
     }
 
-    public void printSortedArmyAndFrequency(){
-        armiesFrequency
-                .entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue())
-                .forEach(System.out::println);
-    }
+
 
     public void calculateArmyChance(){
 

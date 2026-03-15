@@ -7,6 +7,8 @@ import org.example.models.Event;
 import org.example.models.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Date;
+
 //import static org.example.models.Player.players;
 
 public class JsonHandler {
@@ -29,12 +31,14 @@ public class JsonHandler {
             }
     }
 
-    public void fillArmyList(Player user, Event event) throws JsonProcessingException {
+    public void fillArmyList(@NotNull Player user, Event event) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode node = mapper.readTree(user.getPlayerBody());
         JsonNode events = node.get("data");
 
         for (JsonNode currentEvent : events) {
+            Date date;
+            String dateString = currentEvent.get("endsAt").toString();
             JsonNode parings = currentEvent.get("pairings");
             for (JsonNode pairing : parings) {
                 String username = pairing.path("pairingUser1").path("user").path("displayName").toString();
@@ -48,6 +52,30 @@ public class JsonHandler {
                 }
             }
         }
+    }
+
+    private Date extractDate(String dateString){
+        String [] date = new String[3];
+        int counter = 0;
+        boolean flag=true;
+        StringBuilder builder = new StringBuilder();
+
+        for(int i=0; i<date.length; i++) {
+            while (flag) {
+                char a = dateString.charAt(counter);
+                if (a == '-') {
+                    flag = false;
+                }
+                else{
+                    builder.append(a);
+                }
+                counter++;
+            }
+            flag = true;
+            date[i]= builder.toString();
+            builder.setLength(0); //clear a builder
+        }
+        return null;
     }
 }
 

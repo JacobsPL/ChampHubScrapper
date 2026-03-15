@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Błąd</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #222;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 42px;
+            color: #c62828;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 15px 0;
+        }
+
+        .details {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 15px;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 20px;
+            background-color: #1976d2;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background-color: #1259a7;
+        }
+
+        .muted {
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Ups, coś poszło nie tak</h1>
+
+    <p>Nie udało się otworzyć tej strony.</p>
+    <p>Możliwa przyczyna: niepoprawny adres, brak zasobu albo błąd po stronie aplikacji.</p>
+
+    <div class="details">
+        <p><strong>Status:</strong> <span th:text="${status} ?: 'Nieznany'">404</span></p>
+        <p><strong>Błąd:</strong> <span th:text="${error} ?: 'Brak informacji'">Not Found</span></p>
+        <p><strong>Ścieżka:</strong> <span th:text="${path} ?: 'Brak informacji'">/test</span></p>
+        <p><strong>Wiadomość:</strong> <span th:text="${message} ?: 'Brak dodatkowych informacji'">No message available</span></p>
+    </div>
+
+    <a th:href="@{/}" class="button">Powrót na stronę główną</a>
+
+    <p class="muted">Jeśli problem się powtarza, sprawdź adres albo uruchom aplikację ponownie.</p>
+</div>
+</body>
+</html>
