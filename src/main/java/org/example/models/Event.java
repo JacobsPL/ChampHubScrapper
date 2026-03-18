@@ -7,6 +7,7 @@ import org.example.services.JsonHandler;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Event {
 
@@ -33,6 +34,16 @@ public class Event {
             jsonHandler.fillArmyList(player,this);
         }
     }
+// TO DO
+//    public Map<String, Integer> getArmyStatistic(){
+//        for (Player player: players){
+//            List<Army> armies = player.getArmyList();
+//            for (Army army:armies) {
+//                String armyName = army.getArmyName();
+//
+//            }
+//        }
+//    }
 
     public String getEventName() {
         return eventName;

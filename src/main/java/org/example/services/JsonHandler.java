@@ -7,18 +7,13 @@ import org.example.models.Event;
 import org.example.models.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 //import static org.example.models.Player.players;
 
 public class JsonHandler {
 
-    boolean isAprroved(@NotNull JsonNode attender){
-        JsonNode isApproved = attender.get("status");
-        String status = isApproved.toString();
-        status = status.substring(1,status.length()-1);
-        return status.equals("APPROVED");
-    }
+
     public void fillPlayerList(@NotNull Event event) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode node = mapper.readTree(event.getEventBody());
@@ -30,52 +25,58 @@ public class JsonHandler {
                 }
             }
     }
+    private boolean isAprroved(@NotNull JsonNode attender){
+        JsonNode isApproved = attender.get("status");
+        String status = isApproved.toString();
+        status = status.substring(1,status.length()-1);
+        return status.equals("APPROVED");
+    }
 
     public void fillArmyList(@NotNull Player user, Event event) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode node = mapper.readTree(user.getPlayerBody());
         JsonNode events = node.get("data");
-
         for (JsonNode currentEvent : events) {
-            Date date;
-            String dateString = currentEvent.get("endsAt").toString();
-            JsonNode parings = currentEvent.get("pairings");
-            for (JsonNode pairing : parings) {
-                String username = pairing.path("pairingUser1").path("user").path("displayName").toString();
-                if(!username.isEmpty()) username = username.substring(1,username.length()-1);
-                String army = pairing.path("pairingUser1").path("army").path("name").toString();
-                if(!army.isEmpty()) army = army.substring(1,army.length()-1);
+            LocalDate date = extractDate(getDateString(currentEvent));
+            JsonNode pairings = getParingJson(currentEvent);
+            for (JsonNode pairing : pairings) {
+                String username = getUsername(pairing);
+                String army = getArmy(pairing);
                 for (Player player : event.getPlayers()) {
                     if (player.getUsername().equals(username)) {
-                        player.addArmyAndFrequency(army);
+                        player.addArmyToList(army);
+                        player.getArmyFromList(army).addDate(date);
                     }
                 }
             }
         }
     }
 
-    private Date extractDate(String dateString){
-        String [] date = new String[3];
-        int counter = 0;
-        boolean flag=true;
-        StringBuilder builder = new StringBuilder();
+    private JsonNode getParingJson(JsonNode node){
+        return node.get("pairings");
+    }
+    private String getDateString(JsonNode node){
+        return node.get("endsAt").toString();
+    }
+    private String getUsername(JsonNode node){
+        String username = node.path("pairingUser1").path("user").path("displayName").toString();
+        if(!username.isEmpty()) username = username.substring(1,username.length()-1);
+        return username;
+    }
+    private String getArmy(JsonNode node){
+        String army = node.path("pairingUser1").path("army").path("name").toString();
+        if(!army.isEmpty()) army = army.substring(1,army.length()-1);
+        return army;
+    }
 
-        for(int i=0; i<date.length; i++) {
-            while (flag) {
-                char a = dateString.charAt(counter);
-                if (a == '-') {
-                    flag = false;
-                }
-                else{
-                    builder.append(a);
-                }
-                counter++;
-            }
-            flag = true;
-            date[i]= builder.toString();
-            builder.setLength(0); //clear a builder
+    private LocalDate extractDate(String dateString){
+        StringBuilder builder = new StringBuilder();
+        int counter=1; //first char is " so is omitted
+        while(dateString.charAt(counter)!='T'){
+            builder.append(dateString.charAt(counter));
+            counter++;
         }
-        return null;
+        return LocalDate.parse(builder.toString());
     }
 }
 

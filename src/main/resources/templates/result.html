@@ -21,10 +21,8 @@
 
         <td>
             <ul>
-                <li th:each="entry : ${player.armiesFrequency}">
-                    <span th:text="${entry.key}"></span>
-                    :
-                    <span th:text="${entry.value}"></span>
+                <li th:each="army : ${player.armyList}">
+                    <span th:text="${army.getArmyName}"></span>
                 </li>
             </ul>
         </td>

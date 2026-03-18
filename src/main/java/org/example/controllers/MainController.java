@@ -23,7 +23,6 @@ public class MainController {
 
     @PostMapping("/process")
     public String process(@RequestParam("eventUrl") String eventUrl, Model model) throws Exception{
-        //System.out.println("Weszło do kontrolera, eventUrl = " + eventUrl);
         Event event = processingService.createEvent(eventUrl);
         model.addAttribute("event", event);
         return "result";

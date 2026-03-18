@@ -1,21 +1,23 @@
 package org.example.models;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Army {
 
     private String armyName;
+
+    public String getArmyName(){
+        return this.armyName;
+    }
     private int armyFrequency;
 
-    private List<LocalDate> datesOfUsage;
+    private Set<LocalDate> datesOfUsage;
 
     public Army(String armyName){
         this.armyName=armyName;
         this.armyFrequency++;
-        datesOfUsage = new ArrayList<LocalDate>();
+        datesOfUsage = new TreeSet<>();
     }
 
     public boolean equals(String armyName){

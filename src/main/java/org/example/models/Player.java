@@ -6,12 +6,13 @@ public class Player {
 
     private Set<String> armies = new TreeSet<>();
     private Map<String, Integer> armiesFrequency = new HashMap<>();
+    private List<Army> armyList= new ArrayList<>();
+
     private String username;
     private String playerId;
-
-    private List<Army> armyList= new ArrayList<Army>();
-
     String playerBody;
+
+    // armies methods
     @Deprecated
     public Set<String> getArmies(){
         return armies;
@@ -22,10 +23,49 @@ public class Player {
         armies.add(army);
     }
 
-    public void addArmyToList(Army army){
-        armyList.add(army);
+    // army List methods
+
+    public List<Army> getArmyList(){
+        return this.armyList;
+    }
+    public void addArmyToList(String army){
+        for(Army armyToAdd : armyList){
+            if(armyToAdd.equals(army)){
+                return;
+            }
+        }
+        Army newArmy = new Army(army);
+        armyList.add(newArmy);
     }
 
+    public Army getArmyFromList(String armyName){
+        for(Army army : armyList){
+            if(army.getArmyName().equals(armyName)){
+                return army;
+            }
+        }
+        return null;
+    }
+
+
+    // army frequency methods
+    @Deprecated
+    public Map<String, Integer> getArmiesFrequency() {
+        return armiesFrequency;
+    }
+
+    @Deprecated
+    public void addArmyAndFrequency(String army) {
+        for(Map.Entry<String, Integer> entry : armiesFrequency.entrySet()){
+            if(entry.getKey().equals(army)){
+                entry.setValue(entry.getValue()+1);
+                return;
+            }
+        }
+        armiesFrequency.put(army,1);
+    }
+
+    // player variables
     public void setPlayerBody(String body){
         this.playerBody=body;
     }
@@ -33,6 +73,7 @@ public class Player {
     public String getPlayerBody(){
         return playerBody;
     }
+
 
     public void setUsername(String username) {
         this.username = username;
@@ -54,24 +95,6 @@ public class Player {
         this.playerId = playerId;
         this.username = username;
     }
-
-    @Deprecated
-    public Map<String, Integer> getArmiesFrequency() {
-        return armiesFrequency;
-    }
-
-    @Deprecated
-    public void addArmyAndFrequency(String army) {
-        for(Map.Entry<String, Integer> entry : armiesFrequency.entrySet()){
-            if(entry.getKey().equals(army)){
-                entry.setValue(entry.getValue()+1);
-                return;
-            }
-        }
-        armiesFrequency.put(army,1);
-    }
-
-
 
     public void calculateArmyChance(){
 
