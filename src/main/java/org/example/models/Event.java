@@ -1,13 +1,11 @@
 package org.example.models;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.example.services.HttpHandler;
 import org.example.services.JsonHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Event {
 
@@ -17,7 +15,8 @@ public class Event {
     private List<Player> players;
     private String eventId;
     private String apiUrl;
-    private String eventBody;
+    private String eventBodyPeople;
+    private String eventBodyEventManagement;
 
 
     public Event(String eventUrl) throws IOException, InterruptedException {
@@ -70,19 +69,23 @@ public class Event {
         this.apiUrl=apiUrl;
     }
 
-    public void setEventBody(String body){
-        this.eventBody=body;
+    public void setEventBodyPeople(String body){
+        this.eventBodyPeople =body;
+    }
+    public String getEventBodyPeople(){
+        return eventBodyPeople;
+    }
+    public void setEventBodyEventManagement(String body) {this.eventBodyEventManagement = body;}
+
+    public String getEventBodyEventManagement(){return this.eventBodyEventManagement;}
+
+
+
+    public String getEventUrl(){
+        return this.eventUrl;
     }
 
     public String getApiUrl(){
         return apiUrl;
-    }
-
-    public String getEventBody(){
-        return eventBody;
-    }
-
-    public String getEventUrl(){
-        return this.eventUrl;
     }
 }

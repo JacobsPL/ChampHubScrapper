@@ -10,17 +10,18 @@ public class Player {
 
     private String username;
     private String playerId;
+    private Army recentArmy = null;
     String playerBody;
 
     // armies methods
     @Deprecated
     public Set<String> getArmies(){
-        return armies;
+        return this.armies;
     }
 
     @Deprecated
     public void addArmy(String army){
-        armies.add(army);
+        this.armies.add(army);
     }
 
     // army List methods
@@ -46,6 +47,8 @@ public class Player {
         }
         return null;
     }
+
+
 
 
     // army frequency methods
@@ -96,7 +99,22 @@ public class Player {
         this.username = username;
     }
 
-    public void calculateArmyChance(){
-
+    public void calculateMostRecentlyUsedArmy(){
+        for(Army currentArmy: armyList){
+            if (recentArmy == null) {
+                recentArmy = currentArmy;
+                continue;
+            } else if (currentArmy.getDateOfLastUsage().isAfter(recentArmy.getDateOfLastUsage())) {
+                recentArmy=currentArmy;
+            }
+        }
     }
+
+    public String getRecentlyUsedArmy(){
+        return recentArmy != null ? recentArmy.getArmyName() : "Brak armii";
+    }
+
+//    public void calculateArmyChance(){
+//
+//    }
 }

@@ -9,11 +9,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f0a37975-c35e-49eb-806d-7a3b60b97d37" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controllers/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controllers/MainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/models/Army.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/models/Army.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/models/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/models/Event.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/models/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/models/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/services/HttpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/services/HttpHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/services/JsonHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/services/JsonHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/services/ProcessingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/services/ProcessingService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/result.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/result.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -120,8 +121,17 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/services/JsonHandler.java</url>
-          <line>40</line>
-          <option name="timeStamp" value="45" />
+          <line>45</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/models/Event.java</url>
+          <line>71</line>
+          <properties class="org.example.models.Event" method="setEventBodyPeople">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="52" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

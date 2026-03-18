@@ -84,6 +84,10 @@ public class HttpHandler {
         return "https://api.championshub.app/api/submission/" + extractEventId(eventUrl);
     }
 
+    public String createEventManagementApiUrl(String eventUrl){
+        return "https://api.championshub.app/api/event-management/" + extractEventId(eventUrl);
+    }
+
    public String createPlayerDetailsUrl(Player player){
         //https://api.championshub.app/api/ranking-elo/user-history/{playerId}?season=CURRENT
         return  "https://api.championshub.app/api/ranking-elo/user-history/"+player.getPlayerId()+"?season=CURRENT";

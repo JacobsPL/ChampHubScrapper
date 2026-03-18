@@ -2,17 +2,17 @@ package org.example.models;
 
 import java.time.LocalDate;
 import java.util.*;
-
+import java.util.Collections;
 public class Army {
 
-    private String armyName;
+    private final String armyName;
 
     public String getArmyName(){
         return this.armyName;
     }
     private int armyFrequency;
 
-    private Set<LocalDate> datesOfUsage;
+    private final Set<LocalDate> datesOfUsage;
 
     public Army(String armyName){
         this.armyName=armyName;
@@ -30,6 +30,10 @@ public class Army {
 
     public void addDate(LocalDate data){
         datesOfUsage.add(data);
+    }
+
+    public LocalDate getDateOfLastUsage(){
+        return Collections.max(datesOfUsage);
     }
 
 }

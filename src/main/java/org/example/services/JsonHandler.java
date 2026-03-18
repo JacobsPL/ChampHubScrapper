@@ -13,10 +13,14 @@ import java.time.LocalDate;
 
 public class JsonHandler {
 
-
+    public void fillEventName(@NotNull Event event) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(event.getEventBodyEventManagement());
+        event.setEventName(node.get("name").toString());
+    }
     public void fillPlayerList(@NotNull Event event) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode node = mapper.readTree(event.getEventBody());
+        JsonNode node = mapper.readTree(event.getEventBodyPeople());
         JsonNode attendees = node.get("people");
             for(JsonNode attender : attendees) {
                 JsonNode users = attender.get("user");

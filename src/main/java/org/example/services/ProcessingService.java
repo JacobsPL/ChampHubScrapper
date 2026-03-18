@@ -1,5 +1,6 @@
 package org.example.services;
 import org.example.models.Event;
+import org.example.models.Player;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -21,13 +22,26 @@ public class ProcessingService {
                         createUserSubmissionApiUrl(event
                                 .getEventUrl()));
         event.
-                setEventBody(myHandler.
+                setEventBodyPeople(myHandler.
                         FetchHttpBody(event.
                                 getApiUrl()));
+        event.
+                setApiUrl(myHandler.
+                        createEventManagementApiUrl(event.
+                                getEventUrl()));
+        event.
+                setEventBodyEventManagement(myHandler.
+                        FetchHttpBody(event
+                                .getApiUrl()));
+
 
         JsonHandler jsonHandler = new JsonHandler();
+        jsonHandler.fillEventName(event);
         jsonHandler.fillPlayerList(event);
         event.fillArmiesForPlayers();
+        for(Player player:event.getPlayers()){
+            player.calculateMostRecentlyUsedArmy();
+        }
         return event;
     }
 }

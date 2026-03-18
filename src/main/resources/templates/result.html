@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<h1 th:text="${event.eventUrl}">Event name</h1>
+<h1 th:text="${event.getEventName()}">Event name</h1>
 
 <h2>Players</h2>
 
@@ -14,6 +14,7 @@
     <tr>
         <th>Player</th>
         <th>Armies</th>
+        <th> Most Recent Army </th>
     </tr>
 
     <tr th:each="player : ${event.players}">
@@ -24,6 +25,12 @@
                 <li th:each="army : ${player.armyList}">
                     <span th:text="${army.getArmyName}"></span>
                 </li>
+            </ul>
+        </td>
+
+        <td>
+            <ul>
+                <span th:text="${player.getRecentlyUsedArmy}"></span>
             </ul>
         </td>
 
