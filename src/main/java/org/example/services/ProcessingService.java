@@ -39,9 +39,11 @@ public class ProcessingService {
         jsonHandler.fillEventName(event);
         jsonHandler.fillPlayerList(event);
         event.fillArmiesForPlayers();
+
         for(Player player:event.getPlayers()){
             player.calculateMostRecentlyUsedArmy();
         }
+        event.createSimplifyArmyStatistic();
         return event;
     }
 }

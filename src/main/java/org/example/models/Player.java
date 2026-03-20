@@ -4,8 +4,6 @@ import java.util.*;
 
 public class Player {
 
-    private Set<String> armies = new TreeSet<>();
-    private Map<String, Integer> armiesFrequency = new HashMap<>();
     private List<Army> armyList= new ArrayList<>();
 
     private String username;
@@ -13,15 +11,10 @@ public class Player {
     private Army recentArmy = null;
     String playerBody;
 
-    // armies methods
-    @Deprecated
-    public Set<String> getArmies(){
-        return this.armies;
-    }
-
-    @Deprecated
-    public void addArmy(String army){
-        this.armies.add(army);
+    //Constructor
+    public Player(String playerId, String username){
+        this.playerId = playerId;
+        this.username = username;
     }
 
     // army List methods
@@ -46,26 +39,6 @@ public class Player {
             }
         }
         return null;
-    }
-
-
-
-
-    // army frequency methods
-    @Deprecated
-    public Map<String, Integer> getArmiesFrequency() {
-        return armiesFrequency;
-    }
-
-    @Deprecated
-    public void addArmyAndFrequency(String army) {
-        for(Map.Entry<String, Integer> entry : armiesFrequency.entrySet()){
-            if(entry.getKey().equals(army)){
-                entry.setValue(entry.getValue()+1);
-                return;
-            }
-        }
-        armiesFrequency.put(army,1);
     }
 
     // player variables
@@ -94,11 +67,6 @@ public class Player {
         this.playerId = id;
     }
 
-    public Player(String playerId, String username){
-        this.playerId = playerId;
-        this.username = username;
-    }
-
     public void calculateMostRecentlyUsedArmy(){
         for(Army currentArmy: armyList){
             if (recentArmy == null) {
@@ -113,8 +81,4 @@ public class Player {
     public String getRecentlyUsedArmy(){
         return recentArmy != null ? recentArmy.getArmyName() : "Brak armii";
     }
-
-//    public void calculateArmyChance(){
-//
-//    }
 }

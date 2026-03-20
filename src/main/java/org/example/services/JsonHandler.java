@@ -6,11 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.models.Event;
 import org.example.models.Player;
 import org.jetbrains.annotations.NotNull;
-
 import java.time.LocalDate;
-
-//import static org.example.models.Player.players;
-
 public class JsonHandler {
 
     public void fillEventName(@NotNull Event event) throws JsonProcessingException{

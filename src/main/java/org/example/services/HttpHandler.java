@@ -48,7 +48,7 @@ public class HttpHandler {
                 .uri(URI.create(url))
                 .header("accept", "application/json, text/plain, */*")
                 .header("accept-language", "pl,en-US;q=0.9,en;q=0.8,de;q=0.7")
-                .header("game-system", "wh_ow")
+                .header("game-system", "wh_ow") // Needs to be change to scrap other systems than OW
                 .header("locale", "pl-PL")
                 .header("origin", "https://championshub.app")
                 .header("priority", "u=1, i")

@@ -1,48 +1,191 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Event</title>
     <meta charset="UTF-8">
+    <title th:text="${event.eventName}">Event</title>
+
+    <style>
+        :root {
+            --bg: #efe2c3;
+            --paper: #f7edd7;
+            --paper-2: #f2e4c2;
+            --ink: #3b2d1f;
+            --ink-soft: #5a4630;
+            --border: #8b6b3f;
+            --accent: #6f4a21;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            background: var(--bg);
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--ink);
+        }
+
+        .page {
+            max-width: 1300px;
+            margin: auto;
+            background: var(--paper);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        h1 {
+            margin: 0 0 18px;
+            color: var(--accent);
+        }
+
+        .tables-container {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .table-card {
+            flex: 1;
+            background: var(--paper-2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .table-card h2 {
+            margin: 0 0 14px;
+            color: var(--accent);
+            border-bottom: 1px solid rgba(139, 107, 63, 0.4);
+            padding-bottom: 6px;
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: rgba(111, 74, 33, 0.15);
+            color: var(--accent);
+            text-align: left;
+            padding: 10px;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(139, 107, 63, 0.3);
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .army-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .army-list li {
+            margin-bottom: 6px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #fff8e8;
+            font-size: 0.9rem;
+        }
+
+        .recent {
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stats-table td:last-child {
+            font-weight: bold;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .btn {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 16px;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: #573817;
+        }
+    </style>
 </head>
 <body>
 
-<h1 th:text="${event.getEventName()}">Event name</h1>
+<div class="page">
 
-<h2>Players</h2>
+    <h1 th:text="${event.eventName}">Event name</h1>
 
-<table border="1">
-    <tr>
-        <th>Player</th>
-        <th>Armies</th>
-        <th> Most Recent Army </th>
-    </tr>
+    <div class="tables-container">
 
-    <tr th:each="player : ${event.players}">
-        <td th:text="${player.username}">username</td>
+        <!-- LEWA TABELA -->
+        <div class="table-card">
+            <h2>Players</h2>
 
-        <td>
-            <ul>
-                <li th:each="army : ${player.armyList}">
-                    <span th:text="${army.getArmyName}"></span>
-                </li>
-            </ul>
-        </td>
+            <table>
+                <tr>
+                    <th>Player</th>
+                    <th>Armies</th>
+                    <th>Most Recent</th>
+                </tr>
 
-        <td>
-            <ul>
-                <span th:text="${player.getRecentlyUsedArmy}"></span>
-            </ul>
-        </td>
+                <tr th:each="player : ${event.players}">
+                    <td th:text="${player.username}">username</td>
 
-    </tr>
+                    <td>
+                        <ul class="army-list">
+                            <li th:each="army : ${player.armyList}">
+                                <span class="tag" th:text="${army.armyName}">Army</span>
+                            </li>
+                        </ul>
+                    </td>
 
-</table>
+                    <td>
+                        <span class="recent" th:text="${player.recentlyUsedArmy}">army</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
-<br>
+        <!-- PRAWA TABELA -->
+        <div class="table-card">
+            <h2>Army Statistics</h2>
 
-<a th:href="@{/}">
-    <button>Back</button>
-</a>
+            <table class="stats-table">
+                <tr>
+                    <th>Army</th>
+                    <th>Count</th>
+                </tr>
+
+                <tr th:each="entry : ${event.simplifiedArmyStats}">
+                    <td th:text="${entry.key}">Army</td>
+                    <td th:text="${entry.value}">0</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <a th:href="@{/}" class="btn">← Back</a>
+
+</div>
 
 </body>
 </html>

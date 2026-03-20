@@ -4,8 +4,7 @@ import org.example.services.HttpHandler;
 import org.example.services.JsonHandler;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Event {
 
@@ -17,6 +16,8 @@ public class Event {
     private String apiUrl;
     private String eventBodyPeople;
     private String eventBodyEventManagement;
+
+    private Map<String,Integer> simplifiedArmyStats = new TreeMap<>();
 
 
     public Event(String eventUrl) throws IOException, InterruptedException {
@@ -33,16 +34,25 @@ public class Event {
             jsonHandler.fillArmyList(player,this);
         }
     }
-// TO DO
-//    public Map<String, Integer> getArmyStatistic(){
-//        for (Player player: players){
-//            List<Army> armies = player.getArmyList();
-//            for (Army army:armies) {
-//                String armyName = army.getArmyName();
-//
-//            }
-//        }
-//    }
+    public void createSimplifyArmyStatistic(){
+        for (Player player: players){
+            String recentArmy = player.getRecentlyUsedArmy();
+            Boolean armyNotFound = true;
+            for(Map.Entry<String,Integer> entry : simplifiedArmyStats.entrySet()){
+                if(recentArmy.equals(entry.getKey())){
+                    entry.setValue(entry.getValue()+1);
+                    armyNotFound = false;
+                }
+            }
+            if(armyNotFound){
+                simplifiedArmyStats.put(player.getRecentlyUsedArmy(),1);
+            }
+        }
+    }
+
+    public Map<String, Integer> getSimplifiedArmyStats(){
+        return simplifiedArmyStats;
+    }
 
     public String getEventName() {
         return eventName;
@@ -59,8 +69,6 @@ public class Event {
     public void addPlayerToList(Player player){
         players.add(player);
    }
-
-
     public void setEventId(String eventId){
         this.eventId=eventId;
     }
@@ -78,8 +86,6 @@ public class Event {
     public void setEventBodyEventManagement(String body) {this.eventBodyEventManagement = body;}
 
     public String getEventBodyEventManagement(){return this.eventBodyEventManagement;}
-
-
 
     public String getEventUrl(){
         return this.eventUrl;
