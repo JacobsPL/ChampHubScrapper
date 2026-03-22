@@ -146,6 +146,61 @@
             color: var(--ink);
             word-break: break-all;
         }
+
+        .history-box {
+            margin-top: 20px;
+            padding: 16px;
+            border: 1px solid rgba(139, 107, 63, 0.45);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .history-title {
+            margin: 0 0 12px;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .history-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .history-list li + li {
+            margin-top: 8px;
+        }
+
+        .history-form {
+            margin: 0;
+        }
+
+        .history-link-btn {
+            display: block;
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255, 248, 232, 0.8);
+            border: 1px solid rgba(139, 107, 63, 0.35);
+            border-radius: 8px;
+            color: var(--ink);
+            text-align: left;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            word-break: break-all;
+            transition: background 0.2s ease;
+        }
+
+        .history-link-btn:hover {
+            background: rgba(242, 228, 194, 0.95);
+        }
+
+        .empty-history {
+            margin: 0;
+            color: var(--ink-soft);
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -161,7 +216,7 @@
         <div class="form-card">
             <h2>Import wydarzenia</h2>
 
-            <form th:action="@{/process}" method="post">
+            <form th:action="@{/result}" method="post">
                 <div class="field-group">
                     <label for="eventUrl">Link do eventu</label>
                     <input type="text"
@@ -177,10 +232,28 @@
                 </div>
             </form>
 
-            <div class="example-box">
-                <p class="example-title">Przykładowy format:</p>
-                <p class="example-url">https://championshub.app/wh_ow/events/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/people</p>
+            <!-- 🔹 HISTORY -->
+            <div class="history-box">
+                <p class="history-title">Ostatnie wyszukiwania</p>
+
+                <p class="empty-history"
+                   th:if="${history == null or #lists.isEmpty(history)}">
+                    Brak ostatnich wyszukiwań.
+                </p>
+
+                <ul class="history-list"
+                    th:if="${history != null and !#lists.isEmpty(history)}">
+
+                    <li th:each="h : ${history}">
+                        <form th:action="@{/result}" method="post" class="history-form">
+                            <input type="hidden" name="eventUrl" th:value="${h.key}">
+                            <button type="submit" th:text="${h.value}"></button>
+                        </form>
+                    </li>
+
+                </ul>
             </div>
+
         </div>
     </div>
 </div>

@@ -67,6 +67,7 @@ public class Player {
         this.playerId = id;
     }
 
+    // utility methods
     public void calculateMostRecentlyUsedArmy(){
         for(Army currentArmy: armyList){
             if (recentArmy == null) {

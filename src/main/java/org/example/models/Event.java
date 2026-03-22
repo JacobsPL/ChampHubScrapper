@@ -37,7 +37,7 @@ public class Event {
     public void createSimplifyArmyStatistic(){
         for (Player player: players){
             String recentArmy = player.getRecentlyUsedArmy();
-            Boolean armyNotFound = true;
+            boolean armyNotFound = true;
             for(Map.Entry<String,Integer> entry : simplifiedArmyStats.entrySet()){
                 if(recentArmy.equals(entry.getKey())){
                     entry.setValue(entry.getValue()+1);
