@@ -17,6 +17,8 @@ public class Event {
     private String eventBodyPeople;
     private String eventBodyEventManagement;
 
+    private String gameSystem;
+
     private Map<String,Integer> simplifiedArmyStats = new TreeMap<>();
 
 
@@ -30,7 +32,8 @@ public class Event {
         HttpHandler httpHandler = new HttpHandler();
 
         for (Player player: players) {
-            player.setPlayerBody(httpHandler.fetchPlayerParingsBody(httpHandler.createPlayerDetailsUrl(player)));
+            player.setPlayerBody(httpHandler.fetchPlayerParingsBody(httpHandler.createPlayerDetailsUrl(player),
+                    gameSystem));
             jsonHandler.fillArmyList(player,this);
         }
     }
@@ -48,6 +51,27 @@ public class Event {
                 simplifiedArmyStats.put(player.getRecentlyUsedArmy(),1);
             }
         }
+    }
+
+    public void extractGameSystem(){
+
+        StringBuilder builder = new StringBuilder();
+        int counter = 0;
+        int stringCount = 0;
+        for(int i = 0; i<eventUrl.length(); i++){
+            if(eventUrl.charAt(i)=='/'){
+                counter++;
+                if(counter==3){
+                    i++;
+                    while (i<eventUrl.length() && eventUrl.charAt(i)!='/'){
+                        builder.append(eventUrl.charAt(i));
+                        i++;
+                    }
+                    gameSystem = builder.toString();
+                }
+            }
+        }
+        gameSystem = builder.toString();
     }
 
     public Map<String, Integer> getSimplifiedArmyStats(){

@@ -17,6 +17,7 @@ public class ProcessingService {
                 setEventId(myHandler.
                         extractEventId(event.
                                 getEventUrl()));
+        event.extractGameSystem();
         event.
                 setApiUrl(myHandler.
                         createUserSubmissionApiUrl(event
@@ -35,11 +36,11 @@ public class ProcessingService {
                                 .getApiUrl()));
 
 
+        // Setup Event properties - Event Name, Player List, Player Armies
         JsonHandler jsonHandler = new JsonHandler();
         jsonHandler.fillEventName(event);
         jsonHandler.fillPlayerList(event);
         event.fillArmiesForPlayers();
-
         for(Player player:event.getPlayers()){
             player.calculateMostRecentlyUsedArmy();
         }

@@ -11,8 +11,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/controllers/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/controllers/MainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/models/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/models/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/models/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/models/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/services/HttpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/services/HttpHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/services/ProcessingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/services/ProcessingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/error.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/error.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,9 +118,9 @@
           <option name="timeStamp" value="13" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/controllers/MainController.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="60" />
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/models/Event.java</url>
+          <line>57</line>
+          <option name="timeStamp" value="64" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

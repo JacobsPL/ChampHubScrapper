@@ -4,62 +4,201 @@
     <meta charset="UTF-8">
     <title>Błąd</title>
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
-            color: #222;
+        :root {
+            --bg: #efe2c3;
+            --paper: #f7edd7;
+            --paper-2: #f2e4c2;
+            --ink: #3b2d1f;
+            --ink-soft: #5a4630;
+            --border: #8b6b3f;
+            --accent: #6f4a21;
         }
 
-        .container {
-            max-width: 700px;
-            margin: 100px auto;
-            background: white;
-            padding: 40px;
+        body {
+            margin: 0;
+            padding: 30px;
+            background: var(--bg);
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--ink);
+        }
+
+        .page {
+            max-width: 900px;
+            margin: 40px auto;
+            background: var(--paper);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .hero {
+            background: var(--paper-2);
+            border: 1px solid var(--border);
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            text-align: center;
+            padding: 24px;
         }
 
         h1 {
-            margin-top: 0;
-            font-size: 42px;
-            color: #c62828;
+            margin: 0 0 10px;
+            color: var(--accent);
+            font-size: 2rem;
         }
 
-        p {
-            font-size: 18px;
-            margin: 15px 0;
+        .subtitle {
+            margin: 0 0 24px;
+            color: var(--ink-soft);
+            line-height: 1.5;
+            max-width: 700px;
         }
 
-        .details {
-            margin-top: 25px;
-            padding: 15px;
-            background-color: #f8f8f8;
-            border-radius: 8px;
-            text-align: left;
-            font-size: 15px;
+        .form-card {
+            background: rgba(255, 248, 232, 0.75);
+            border: 1px solid rgba(139, 107, 63, 0.45);
+            border-radius: 12px;
+            padding: 18px;
         }
 
-        .button {
+        .form-card h2 {
+            margin: 0 0 14px;
+            color: var(--accent);
+            border-bottom: 1px solid rgba(139, 107, 63, 0.4);
+            padding-bottom: 6px;
+            font-size: 1.2rem;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        label {
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fff8e8;
+            color: var(--ink);
+            font-size: 1rem;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(111, 74, 33, 0.15);
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
             display: inline-block;
-            margin-top: 25px;
-            padding: 12px 20px;
-            background-color: #1976d2;
-            color: white;
+            padding: 10px 16px;
+            background: var(--accent);
+            color: #fff;
             text-decoration: none;
             border-radius: 8px;
-            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: inherit;
         }
 
-        .button:hover {
-            background-color: #1259a7;
+        .btn:hover {
+            background: #573817;
         }
 
-        .muted {
-            color: #666;
-            font-size: 14px;
+        .hint {
+            font-size: 0.95rem;
+            color: var(--ink-soft);
+        }
+
+        .example-box {
             margin-top: 20px;
+            padding: 14px 16px;
+            border: 1px dashed rgba(139, 107, 63, 0.7);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .example-title {
+            margin: 0 0 8px;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .example-url {
+            margin: 0;
+            color: var(--ink);
+            word-break: break-all;
+        }
+
+        .history-box {
+            margin-top: 20px;
+            padding: 16px;
+            border: 1px solid rgba(139, 107, 63, 0.45);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .history-title {
+            margin: 0 0 12px;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .history-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .history-list li + li {
+            margin-top: 8px;
+        }
+
+        .history-form {
+            margin: 0;
+        }
+
+        .history-link-btn {
+            display: block;
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255, 248, 232, 0.8);
+            border: 1px solid rgba(139, 107, 63, 0.35);
+            border-radius: 8px;
+            color: var(--ink);
+            text-align: left;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            word-break: break-all;
+            transition: background 0.2s ease;
+        }
+
+        .history-link-btn:hover {
+            background: rgba(242, 228, 194, 0.95);
+        }
+
+        .empty-history {
+            margin: 0;
+            color: var(--ink-soft);
+            font-style: italic;
         }
     </style>
 </head>

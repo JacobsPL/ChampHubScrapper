@@ -31,9 +31,8 @@ public class MainController {
         Event event = processingService.createEvent(eventUrl);
 
         // Tworzenie historii wyszukiwanych eventów
-        // Jesli lista historii jest pusta(nie istnieje) - zainicjuj liste
+        // Jesli mapa historii jest pusta(nie istnieje) - zainicjuj mape
         Map<String, String> sessionHistoryMap = (Map<String,String>)session.getAttribute("history");
-        //List<String> sessionHistory = (List<String>)session.getAttribute("history");
         if(sessionHistoryMap == null){
             sessionHistoryMap = new HashMap<>();
         }
