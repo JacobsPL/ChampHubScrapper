@@ -143,7 +143,7 @@
                 <tr>
                     <th>Player</th>
                     <th>Armies</th>
-                    <th>Most Recent</th>
+                    <th>Most Probable</th>
                 </tr>
 
                 <tr th:each="player : ${event.players}">
@@ -158,7 +158,7 @@
                     </td>
 
                     <td>
-                        <span class="recent" th:text="${player.recentlyUsedArmy}">army</span>
+                        <span class="recent" th:text="${player.bestArmy}">army</span>
                     </td>
                 </tr>
             </table>

@@ -5,6 +5,7 @@ import org.example.services.JsonHandler;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Event {
 
@@ -37,21 +38,42 @@ public class Event {
             jsonHandler.fillArmyList(player,this);
         }
     }
-    public void createSimplifyArmyStatistic(){
+    public void createSimplifyArmyStatistic(){ // to chyba całe jest do wyjebania i do użycia od nowa
         for (Player player: players){
-            String recentArmy = player.getRecentlyUsedArmy();
+            String playerBestArmy = player.getBestArmy(); // to trzeba zmienić żeby nie brało ostatnio użytą tylko tą o największym score
             boolean armyNotFound = true;
             for(Map.Entry<String,Integer> entry : simplifiedArmyStats.entrySet()){
-                if(recentArmy.equals(entry.getKey())){
+                if(playerBestArmy.equals(entry.getKey())){
                     entry.setValue(entry.getValue()+1);
                     armyNotFound = false;
                 }
             }
             if(armyNotFound){
-                simplifiedArmyStats.put(player.getRecentlyUsedArmy(),1);
+                simplifiedArmyStats.put(player.getBestArmy(),1);
             }
         }
+        simplifiedArmyStats=sortMap(simplifiedArmyStats);
     }
+
+    private Map<String, Integer> sortMap(Map <String, Integer> mapToBeSorted){
+        return mapToBeSorted.entrySet()
+                .stream()
+                .sorted(Map.Entry.<String,Integer>comparingByValue().reversed())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (a,b)->a,
+                        LinkedHashMap::new));
+//        mapToBeSorted.clear();
+//        mapToBeSorted.putAll(sorted);
+    }
+
+    public void setMostProbableArmyForEachPlayer(){
+        for (Player player : players){
+            player.calculateMostProbableArmy();
+        }
+    }
+
 
     public void extractGameSystem(){
 
@@ -76,6 +98,11 @@ public class Event {
 
     public Map<String, Integer> getSimplifiedArmyStats(){
         return simplifiedArmyStats;
+    }
+    public void fillPlayersDateArmyMap(){
+        for(Player currentPlayer : getPlayers()){
+            currentPlayer.filleArmyDateMap();
+        }
     }
 
     public String getEventName() {

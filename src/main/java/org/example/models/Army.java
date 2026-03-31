@@ -5,16 +5,26 @@ import java.util.*;
 import java.util.Collections;
 public class Army {
 
+    private double score;
     private final String armyName;
     private final Set<LocalDate> datesOfUsage;
 
     public Army(String armyName){
         this.armyName=armyName;
-        datesOfUsage = new TreeSet<>();
+        datesOfUsage = new TreeSet<>(Comparator.reverseOrder());
+        score=0;
     }
 
+    public void addToScore(double addition){
+        this.score+=addition;
+    }
+
+    public double getScore() { return this.score;}
     public String getArmyName(){
         return this.armyName;
+    }
+    public Set<LocalDate> getDatesOfUsage(){
+        return this.datesOfUsage;
     }
 
     public boolean equals(String armyName){

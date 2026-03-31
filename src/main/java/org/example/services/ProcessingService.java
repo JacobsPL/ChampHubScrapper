@@ -41,9 +41,12 @@ public class ProcessingService {
         jsonHandler.fillEventName(event);
         jsonHandler.fillPlayerList(event);
         event.fillArmiesForPlayers();
-        for(Player player:event.getPlayers()){
-            player.calculateMostRecentlyUsedArmy();
-        }
+        event.fillPlayersDateArmyMap(); // kurwa działa xdd
+
+//        for(Player player:event.getPlayers()){
+//            player.calculateMostProbableArmy();
+//        }
+        event.setMostProbableArmyForEachPlayer();
         event.createSimplifyArmyStatistic();
         return event;
     }
