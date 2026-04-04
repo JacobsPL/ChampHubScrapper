@@ -26,10 +26,6 @@ public class Army {
         datesOfUsage.add(data);
     }
 
-    public LocalDate getDateOfLastUsage(){
-        return Collections.max(datesOfUsage);
-    }
-
     // Getters
     public double getScore() { return this.score;}
     public String getArmyName(){

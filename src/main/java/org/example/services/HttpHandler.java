@@ -30,35 +30,11 @@ public class HttpHandler {
         return response.body();
     }
 
-    String FetchUserDetailsBody(String url, String gameSystem) throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest
-                .newBuilder()
-                .uri(URI.create(url))
-                .header("accept","application/json, text/plain, */*")
-                .header("accept-language","pl,en-US;q=0.9,en;q=0.8,de;q=0.7")
-                .header("game-system",gameSystem)
-                .header("locale","pl-PL")
-                .header("origin","https://championshub.app")
-                .header("priority","u=1, i")
-                .header("referer","https://championshub.app/")
-                .header("User-Agent", "Mozilla/5.0").GET().build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return response.body();
-    }
-
     public String fetchPlayerParingsBody(String url, String gameSystem) throws IOException, InterruptedException{
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
-                .header("accept", "application/json, text/plain, */*")
-                .header("accept-language", "pl,en-US;q=0.9,en;q=0.8,de;q=0.7")
                 .header("game-system", gameSystem)
-                .header("locale", "pl-PL")
-                .header("origin", "https://championshub.app")
-                .header("priority", "u=1, i")
-                .header("referer", "https://championshub.app/")
-                .header("user-agent", "Mozilla/5.0")
                 .GET().build();
         HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
         return response.body();

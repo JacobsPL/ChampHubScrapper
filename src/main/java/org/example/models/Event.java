@@ -6,22 +6,19 @@ import java.util.stream.Collectors;
 public class Event {
 
     private String eventName;
-
     private String eventUrl;
     private Map<String,Player> playersMap;
     private String eventId;
     private String apiUrl;
     private String eventBodyPeople;
     private String eventBodyEventManagement;
-
     private String gameSystem;
 
     private Map<String,Integer> simplifiedArmyStats = new TreeMap<>();
 
 
-    public Event(String eventUrl) throws IOException, InterruptedException {
+    public Event(String eventUrl) {
         this.eventUrl = eventUrl;
-        //players = new ArrayList<>();
         playersMap = new HashMap<>();
     }
 
@@ -57,7 +54,6 @@ public class Event {
     public void extractGameSystem(){
         StringBuilder builder = new StringBuilder();
         int counter = 0;
-        int stringCount = 0;
         for(int i = 0; i<eventUrl.length(); i++){
             if(eventUrl.charAt(i)=='/'){
                 counter++;
@@ -71,7 +67,6 @@ public class Event {
                 }
             }
         }
-        gameSystem = builder.toString();
     }
 
     public void addPlayerToMap(String username, Player player){

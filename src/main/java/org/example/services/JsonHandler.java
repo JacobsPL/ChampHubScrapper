@@ -56,13 +56,15 @@ public class JsonHandler {
                     isPairing1 = false;
                 }
                 String army = getArmy(pairing, isPairing1);
+                if(army == null || army.isBlank()){
+                    continue;
+                };
                 user.addArmyToList(army);
                 user.getArmyFromList(army).addDate(date);
             }
         }
     }
 
-    // WORK IN PROGRESS
     public void fillArmiesForPlayers(Event event, HttpHandler httpHandler) throws IOException, InterruptedException {
         for (Player player: event.getPlayersMap().values()) {
             player.setPlayerBody(httpHandler.fetchPlayerParingsBody(httpHandler.createPlayerDetailsUrl(player),
@@ -70,11 +72,9 @@ public class JsonHandler {
             fillArmyList(player,event);
         }
     }
-
     private LocalDate extractDate(String dateString){
         return OffsetDateTime.parse(dateString).toLocalDate();
     }
-
     // Getters
     private JsonNode getParingJson(JsonNode node){
         return node.get("pairings");
