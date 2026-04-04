@@ -146,19 +146,19 @@
                     <th>Most Probable</th>
                 </tr>
 
-                <tr th:each="player : ${event.players}">
-                    <td th:text="${player.username}">username</td>
+                <tr th:each="player : ${event.playersMap}">
+                    <td th:text="${player.key}">username</td>
 
                     <td>
                         <ul class="army-list">
-                            <li th:each="army : ${player.armyList}">
+                            <li th:each="army : ${player.value.armyList}">
                                 <span class="tag" th:text="${army.armyName}">Army</span>
                             </li>
                         </ul>
                     </td>
 
                     <td>
-                        <span class="recent" th:text="${player.bestArmy}">army</span>
+                        <span class="recent" th:text="${player.value.mostProbableArmy}">army</span>
                     </td>
                 </tr>
             </table>

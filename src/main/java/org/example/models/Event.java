@@ -1,8 +1,4 @@
 package org.example.models;
-
-import org.example.services.HttpHandler;
-import org.example.services.JsonHandler;
-
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,7 +8,7 @@ public class Event {
     private String eventName;
 
     private String eventUrl;
-    private List<Player> players;
+    private Map<String,Player> playersMap;
     private String eventId;
     private String apiUrl;
     private String eventBodyPeople;
@@ -25,22 +21,13 @@ public class Event {
 
     public Event(String eventUrl) throws IOException, InterruptedException {
         this.eventUrl = eventUrl;
-        players = new ArrayList<>();
+        //players = new ArrayList<>();
+        playersMap = new HashMap<>();
     }
 
-    public void fillArmiesForPlayers() throws IOException, InterruptedException {
-        JsonHandler jsonHandler = new JsonHandler();
-        HttpHandler httpHandler = new HttpHandler();
-
-        for (Player player: players) {
-            player.setPlayerBody(httpHandler.fetchPlayerParingsBody(httpHandler.createPlayerDetailsUrl(player),
-                    gameSystem));
-            jsonHandler.fillArmyList(player,this);
-        }
-    }
-    public void createSimplifyArmyStatistic(){ // to chyba całe jest do wyjebania i do użycia od nowa
-        for (Player player: players){
-            String playerBestArmy = player.getBestArmy(); // to trzeba zmienić żeby nie brało ostatnio użytą tylko tą o największym score
+    public void createSimplifyArmyStatistic(){
+        for (Player player: playersMap.values()){
+            String playerBestArmy = player.getMostProbableArmy();
             boolean armyNotFound = true;
             for(Map.Entry<String,Integer> entry : simplifiedArmyStats.entrySet()){
                 if(playerBestArmy.equals(entry.getKey())){
@@ -49,7 +36,7 @@ public class Event {
                 }
             }
             if(armyNotFound){
-                simplifiedArmyStats.put(player.getBestArmy(),1);
+                simplifiedArmyStats.put(player.getMostProbableArmy(),1);
             }
         }
         simplifiedArmyStats=sortMap(simplifiedArmyStats);
@@ -64,19 +51,10 @@ public class Event {
                         Map.Entry::getValue,
                         (a,b)->a,
                         LinkedHashMap::new));
-//        mapToBeSorted.clear();
-//        mapToBeSorted.putAll(sorted);
-    }
-
-    public void setMostProbableArmyForEachPlayer(){
-        for (Player player : players){
-            player.calculateMostProbableArmy();
-        }
     }
 
 
     public void extractGameSystem(){
-
         StringBuilder builder = new StringBuilder();
         int counter = 0;
         int stringCount = 0;
@@ -96,29 +74,13 @@ public class Event {
         gameSystem = builder.toString();
     }
 
-    public Map<String, Integer> getSimplifiedArmyStats(){
-        return simplifiedArmyStats;
-    }
-    public void fillPlayersDateArmyMap(){
-        for(Player currentPlayer : getPlayers()){
-            currentPlayer.filleArmyDateMap();
-        }
+    public void addPlayerToMap(String username, Player player){
+        playersMap.put(username,player);
     }
 
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-
-    public List<Player> getPlayers(){
-        return players;
-    }
-
-    public void addPlayerToList(Player player){
-        players.add(player);
+   //Setters
+   public void setEventName(String eventName) {
+       this.eventName = eventName;
    }
     public void setEventId(String eventId){
         this.eventId=eventId;
@@ -131,11 +93,20 @@ public class Event {
     public void setEventBodyPeople(String body){
         this.eventBodyPeople =body;
     }
-    public String getEventBodyPeople(){
-        return eventBodyPeople;
-    }
+
     public void setEventBodyEventManagement(String body) {this.eventBodyEventManagement = body;}
 
+    public void setMostProbableArmyForEachPlayer(){
+        for (Player player : playersMap.values()){
+            player.calculateMostProbableArmy();
+        }
+    }
+
+    // Geters
+
+    public Map<String,Player> getPlayersMap(){
+        return playersMap;
+    }
     public String getEventBodyEventManagement(){return this.eventBodyEventManagement;}
 
     public String getEventUrl(){
@@ -144,5 +115,25 @@ public class Event {
 
     public String getApiUrl(){
         return apiUrl;
+    }
+    public String getEventBodyPeople(){
+        return eventBodyPeople;
+    }
+    public String getEventName() {
+        return eventName;
+    }
+
+    //Used in resul.html
+    public Map<String, Integer> getSimplifiedArmyStats(){
+        return simplifiedArmyStats;
+    }
+    public void fillPlayersDateArmyMap(){
+        for(Player currentPlayer : playersMap.values()){
+            currentPlayer.filleArmyDateMap();
+        }
+    }
+
+    public String getGameSystem(){
+        return this.gameSystem;
     }
 }

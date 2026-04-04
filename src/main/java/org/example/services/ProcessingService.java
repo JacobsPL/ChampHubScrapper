@@ -9,43 +9,43 @@ import java.io.IOException;
 @Service
 public class ProcessingService {
 
+    private final JsonHandler jsonHandler;
+    private final HttpHandler httpHandler;
+    public ProcessingService(JsonHandler jsonHandler, HttpHandler httpHandler){
+        this.jsonHandler=jsonHandler;
+        this.httpHandler=httpHandler;
+    }
     public Event createEvent(String eventUrl) throws IOException, InterruptedException {
         //Set up api event properties
         Event event = new Event(eventUrl);
-        HttpHandler myHandler = new HttpHandler();
         event.
-                setEventId(myHandler.
+                setEventId(httpHandler.
                         extractEventId(event.
                                 getEventUrl()));
         event.extractGameSystem();
         event.
-                setApiUrl(myHandler.
+                setApiUrl(httpHandler.
                         createUserSubmissionApiUrl(event
                                 .getEventUrl()));
         event.
-                setEventBodyPeople(myHandler.
+                setEventBodyPeople(httpHandler.
                         FetchHttpBody(event.
                                 getApiUrl()));
         event.
-                setApiUrl(myHandler.
+                setApiUrl(httpHandler.
                         createEventManagementApiUrl(event.
                                 getEventUrl()));
         event.
-                setEventBodyEventManagement(myHandler.
+                setEventBodyEventManagement(httpHandler.
                         FetchHttpBody(event
                                 .getApiUrl()));
 
 
         // Setup Event properties - Event Name, Player List, Player Armies
-        JsonHandler jsonHandler = new JsonHandler();
         jsonHandler.fillEventName(event);
         jsonHandler.fillPlayerList(event);
-        event.fillArmiesForPlayers();
-        event.fillPlayersDateArmyMap(); // kurwa działa xdd
-
-//        for(Player player:event.getPlayers()){
-//            player.calculateMostProbableArmy();
-//        }
+        jsonHandler.fillArmiesForPlayers(event,httpHandler);
+        event.fillPlayersDateArmyMap();
         event.setMostProbableArmyForEachPlayer();
         event.createSimplifyArmyStatistic();
         return event;

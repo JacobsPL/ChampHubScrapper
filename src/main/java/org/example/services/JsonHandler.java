@@ -6,77 +6,99 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.models.Event;
 import org.example.models.Player;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
+
+@Service
 public class JsonHandler {
 
+    private ObjectMapper mapper;
+
+    public JsonHandler(ObjectMapper mapper){
+        this.mapper=mapper;
+    }
     public void fillEventName(@NotNull Event event) throws JsonProcessingException{
-        ObjectMapper mapper = new ObjectMapper();
         JsonNode node = mapper.readTree(event.getEventBodyEventManagement());
-        event.setEventName(node.get("name").toString());
+        event.setEventName(node.get("name").asText());
     }
     public void fillPlayerList(@NotNull Event event) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
         JsonNode node = mapper.readTree(event.getEventBodyPeople());
         JsonNode attendees = node.get("people");
             for(JsonNode attender : attendees) {
                 JsonNode users = attender.get("user");
                 if (isAprroved(attender)) {
-                    event.addPlayerToList(new Player(users.get("id").asText(), users.get("displayName").asText()));
+                    Player player = new Player(users.get("id").asText(), users.get("displayName").asText());
+                    event.addPlayerToMap(player.getUsername(), player);
                 }
             }
     }
     private boolean isAprroved(@NotNull JsonNode attender){
         JsonNode isApproved = attender.get("status");
-        String status = isApproved.toString();
-        status = status.substring(1,status.length()-1);
+        String status = isApproved.asText();
         return status.equals("APPROVED");
     }
 
     public void fillArmyList(@NotNull Player user, Event event) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
         JsonNode node = mapper.readTree(user.getPlayerBody());
         JsonNode events = node.get("data");
         for (JsonNode currentEvent : events) {
             LocalDate date = extractDate(getDateString(currentEvent));
             JsonNode pairings = getParingJson(currentEvent);
             for (JsonNode pairing : pairings) {
-                String username = getUsername(pairing);
-                String army = getArmy(pairing);
-                for (Player player : event.getPlayers()) {
-                    if (player.getUsername().equals(username)) {
-                        player.addArmyToList(army);
-                        player.getArmyFromList(army).addDate(date);
-                    }
+                boolean isPairing1 = true;
+                String username = getUsername(pairing, isPairing1);
+                // current player is sometimes in "Paring1" and other timer in "Paring2"
+                // This is for ensuring we always get current player
+                if(!username.equals(user.getUsername())){
+                    isPairing1 = false;
                 }
+                String army = getArmy(pairing, isPairing1);
+                user.addArmyToList(army);
+                user.getArmyFromList(army).addDate(date);
             }
         }
     }
 
+    // WORK IN PROGRESS
+    public void fillArmiesForPlayers(Event event, HttpHandler httpHandler) throws IOException, InterruptedException {
+        for (Player player: event.getPlayersMap().values()) {
+            player.setPlayerBody(httpHandler.fetchPlayerParingsBody(httpHandler.createPlayerDetailsUrl(player),
+                    event.getGameSystem()));
+            fillArmyList(player,event);
+        }
+    }
+
+    private LocalDate extractDate(String dateString){
+        return OffsetDateTime.parse(dateString).toLocalDate();
+    }
+
+    // Getters
     private JsonNode getParingJson(JsonNode node){
         return node.get("pairings");
     }
     private String getDateString(JsonNode node){
-        return node.get("endsAt").toString();
+        return node.get("endsAt").asText();
     }
-    private String getUsername(JsonNode node){
-        String username = node.path("pairingUser1").path("user").path("displayName").toString();
-        if(!username.isEmpty()) username = username.substring(1,username.length()-1);
-        return username;
-    }
-    private String getArmy(JsonNode node){
-        String army = node.path("pairingUser1").path("army").path("name").toString();
-        if(!army.isEmpty()) army = army.substring(1,army.length()-1);
-        return army;
-    }
-
-    private LocalDate extractDate(String dateString){
-        StringBuilder builder = new StringBuilder();
-        int counter=1; //first char is " so is omitted
-        while(dateString.charAt(counter)!='T'){
-            builder.append(dateString.charAt(counter));
-            counter++;
+    private String getUsername(JsonNode node, boolean isParing1){
+        String paring;
+        if(isParing1){
+            paring = "pairingUser1";
+        }else{
+            paring = "pairingUser2";
         }
-        return LocalDate.parse(builder.toString());
+        return node.path(paring).path("user").path("displayName").asText();
+    }
+    private String getArmy(JsonNode node, boolean isParing1){
+        String paring;
+        if(isParing1){
+            paring = "pairingUser1";
+        }else{
+            paring = "pairingUser2";
+        }
+        return node.path(paring).path("army").path("name").asText();
     }
 }
 

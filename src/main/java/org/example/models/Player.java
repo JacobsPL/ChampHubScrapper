@@ -8,12 +8,9 @@ public class Player {
 
     private List<Army> armyList= new ArrayList<>();
     private Map<LocalDate, String> dateArmyMap = new LinkedHashMap<>();
-    // coś tutaj jest nie tak - nie dodaje się kolejna armia jeśli jest inna data
-    // dodaje do mapy nieunikalne wartości dlatego nadpisuję dane i biorę tylko ostatnią danę - to psuje mi algorytm
-    // TO DO: przemyśleć czy w ogóle potrzebuję mapy - może warto zamienić to po prostu na listę
     private String username;
     private String playerId;
-    private Army bestArmy = null;
+    private Army mostProbableArmy = null;
     String playerBody;
 
     //Constructor
@@ -24,10 +21,11 @@ public class Player {
 
     public void calculateMostProbableArmy(){
         int k = 0;
-        int t = 3; //współczynnik wygaszania
+        int t = 3; //extinction factor
         // calculate army score for each army
         for(Map.Entry<LocalDate,String> currentEntry : dateArmyMap.entrySet()){
             double weight = Math.exp((double) -k /t);
+            if(k==0){weight=+0.5;}
             for(Army currentArmy : armyList){
                 if(currentArmy.getArmyName().equals(currentEntry.getValue())){
                     currentArmy.addToScore(weight);
@@ -35,16 +33,14 @@ public class Player {
             }
             k++;
         }
-        // choose the best army and assigne it to the player
-        Army bestArmy = null;
+        // choose the best army and assignee it to the player
         double bestScore = 0;
         for(Army currentArmy : armyList) {
             if (currentArmy.getScore() > bestScore) {
-                bestArmy = currentArmy;
+                this.mostProbableArmy = currentArmy;
                 bestScore = currentArmy.getScore();
             }
         }
-        this.bestArmy = bestArmy;
     }
 
     public void filleArmyDateMap(){
@@ -53,7 +49,7 @@ public class Player {
                 dateArmyMap.put(data,current.getArmyName());
             }
         }
-        dateArmyMap = sortMap(dateArmyMap); // czyli mamy posortowaną mapę <Army,LocalDate> pod algotyrm
+        dateArmyMap = sortMap(dateArmyMap); // sorted map <Army,LocalDate> for the further use in alghoritm
     }
 
     private Map<LocalDate, String> sortMap(Map<LocalDate, String> map){
@@ -65,14 +61,6 @@ public class Player {
                         Map.Entry::getValue,
                         (a,b)->a,
                         LinkedHashMap::new));
-//        map.clear();
-//        map.putAll(sorted);
-    }
-
-    // army List methods
-
-    public List<Army> getArmyList(){
-        return this.armyList;
     }
     public void addArmyToList(String army){
         for(Army armyToAdd : armyList){
@@ -84,6 +72,30 @@ public class Player {
         armyList.add(newArmy);
     }
 
+    // Setters
+    public void setPlayerBody(String body){
+        this.playerBody=body;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public void setPlayerId(String id){
+        this.playerId = id;
+    }
+
+    // Getters
+    public String getMostProbableArmy(){
+        return mostProbableArmy != null ? mostProbableArmy.getArmyName() : "NOWY GRACZ";
+    }
+    public String getPlayerId(){
+        return playerId;
+    }
+    public String getUsername(){
+        return username;
+    }
+    public String getPlayerBody(){
+        return playerBody;
+    }
     public Army getArmyFromList(String armyName){
         for(Army army : armyList){
             if(army.getArmyName().equals(armyName)){
@@ -92,46 +104,7 @@ public class Player {
         }
         return null;
     }
-
-    // player variables
-    public void setPlayerBody(String body){
-        this.playerBody=body;
-    }
-
-    public String getPlayerBody(){
-        return playerBody;
-    }
-
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getUsername(){
-        return username;
-    }
-
-    public String getPlayerId(){
-        return playerId;
-    }
-
-    public void setPlayerId(String id){
-        this.playerId = id;
-    }
-
-    // utility methods
-//    public void calculateMostRecentlyUsedArmy(){
-//        for(Army currentArmy: armyList){
-//            if (bestArmy == null) {
-//                bestArmy = currentArmy;
-//                continue;
-//            } else if (currentArmy.getDateOfLastUsage().isAfter(bestArmy.getDateOfLastUsage())) {
-//                bestArmy =currentArmy;
-//            }
-//        }
-//    }
-
-    public String getBestArmy(){
-        return bestArmy != null ? bestArmy.getArmyName() : "NOWY GRACZ";
+    public List<Army> getArmyList(){
+        return this.armyList;
     }
 }

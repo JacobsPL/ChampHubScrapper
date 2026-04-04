@@ -13,6 +13,8 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/models/Army.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/models/Army.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/models/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/models/Event.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/models/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/models/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/services/HttpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/services/HttpHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/services/JsonHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/services/JsonHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/services/ProcessingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/services/ProcessingService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/result.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/result.html" afterDir="false" />
     </list>
@@ -35,10 +37,10 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="3Abi9Dle7vn2EY22ejhb1jOkroS" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -51,7 +53,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;add__alghotitm&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;cleanup&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;debugger.stepping&quot;
   }
 }</component>
@@ -122,16 +124,12 @@
           <properties class="java.lang.IllegalArgumentException" package="java.lang" />
           <option name="timeStamp" value="13" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/models/Event.java</url>
-          <line>66</line>
-          <option name="timeStamp" value="72" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="event.apiUrl" />
+        <watch expression="this" />
       </configuration>
     </watches-manager>
   </component>

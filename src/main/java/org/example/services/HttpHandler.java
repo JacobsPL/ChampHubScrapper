@@ -1,6 +1,7 @@
 package org.example.services;
 
 import org.example.models.Player;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URI;
@@ -9,9 +10,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
+@Service
 public class HttpHandler {
 
-    HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build();
+    private final HttpClient client;
+
+    public HttpHandler(){
+        client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build();
+    }
 
     public String FetchHttpBody(String url) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest
@@ -25,7 +31,6 @@ public class HttpHandler {
     }
 
     String FetchUserDetailsBody(String url, String gameSystem) throws IOException, InterruptedException {
-
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .uri(URI.create(url))
@@ -48,7 +53,7 @@ public class HttpHandler {
                 .uri(URI.create(url))
                 .header("accept", "application/json, text/plain, */*")
                 .header("accept-language", "pl,en-US;q=0.9,en;q=0.8,de;q=0.7")
-                .header("game-system", gameSystem) // Needs to be change to scrap other systems than OW
+                .header("game-system", gameSystem)
                 .header("locale", "pl-PL")
                 .header("origin", "https://championshub.app")
                 .header("priority", "u=1, i")

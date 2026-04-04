@@ -18,15 +18,6 @@ public class Army {
     public void addToScore(double addition){
         this.score+=addition;
     }
-
-    public double getScore() { return this.score;}
-    public String getArmyName(){
-        return this.armyName;
-    }
-    public Set<LocalDate> getDatesOfUsage(){
-        return this.datesOfUsage;
-    }
-
     public boolean equals(String armyName){
         return this.armyName.equals(armyName);
     }
@@ -37,6 +28,15 @@ public class Army {
 
     public LocalDate getDateOfLastUsage(){
         return Collections.max(datesOfUsage);
+    }
+
+    // Getters
+    public double getScore() { return this.score;}
+    public String getArmyName(){
+        return this.armyName;
+    }
+    public Set<LocalDate> getDatesOfUsage(){
+        return this.datesOfUsage;
     }
 
 }
